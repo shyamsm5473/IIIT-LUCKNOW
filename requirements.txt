@@ -1,0 +1,5 @@
+google-generativeai
+pymupdf
+django
+gunicorn
+whitenoise
