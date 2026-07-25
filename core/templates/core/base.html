@@ -114,7 +114,7 @@
     <a href="{% url 'core:analytics' %}"  {% if active_page == 'analytics'   %}class="active"{% endif %}>Air Quality Analytics</a>
     <a href="{% url 'core:contact' %}"    {% if active_page == 'contact'     %}class="active"{% endif %}>Contact</a>
     <a href="{% url 'core:benefits' %}"   {% if active_page == 'benefits'    %}class="active"{% endif %}>Benefits</a>
-    <a href="{% url 'related_publication:page' %}" {% if active_page == 'publications' %}class="active"{% endif %}>Related publications</a>
+    <a href="{% url 'related_publication:page' %}" {% if active_page == 'publications' %}class="active"{% endif %}>Related Publications</a>
     <a href="{% url 'core:map' %}"        {% if active_page == 'map'         %}class="active"{% endif %}>Map</a>
     <div class="auth-buttons">
       {% if user.is_authenticated %}
