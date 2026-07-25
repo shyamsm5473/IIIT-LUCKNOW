@@ -97,14 +97,72 @@
     <div class="po-card">
       <div class="po-card-icon">📡</div>
       <h3>Where the Data Comes From</h3>
-      <p>The dashboard pulls live readings directly from the <strong>Open-Meteo Air Quality &amp; Weather APIs</strong>, which combine ground-monitoring stations with atmospheric models to estimate:</p>
-      <ul>
-        <li>PM2.5 &amp; PM10 (particulate matter)</li>
-        <li>Carbon Monoxide (CO) &amp; Nitrogen Dioxide (NO₂)</li>
-        <li>Ozone, temperature &amp; humidity</li>
-      </ul>
-      <span class="po-note">This keeps the system free to run and easy to extend to new locations without installing hardware.</span>
-    </div>
+      <div class="container">
+    
+    <header class="header">
+      <span class="badge">Environmental Research Dataset</span>
+      <h1>Air Quality Testbed & Data Validation</h1>
+    </header>
+
+    <!-- Data Collection Section -->
+    <section class="section">
+      <h2 class="section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+        Dataset & Deployment Architecture
+      </h2>
+      <p>
+        The dataset used in this research is collected from a real-world air quality monitoring network deployed at the <strong>Indian Institute of Information Technology Lucknow (IIIT Lucknow)</strong>. 
+      </p>
+      
+      <div class="grid">
+        <div class="card">
+          <div class="card-title">Infrastructure</div>
+          <p class="card-text">3 strategically placed monitoring stations across the IIIT Lucknow campus.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Sensor Pairing</div>
+          <p class="card-text">Combines high-grade reference sensors with low-cost air quality sensors.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Primary Objective</div>
+          <p class="card-text">Continuous monitoring to evaluate sensor reliability and train machine learning models.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Validation Section -->
+    <section class="section">
+      <h2 class="section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        Cross-Validation & External Data Sources
+      </h2>
+      <p>
+        To guarantee high data integrity, continuously logged readings are cross-validated against multiple established external databases and meteorological APIs.
+      </p>
+
+      <div class="highlight-box">
+        <div class="highlight-title">
+          Validated Parameters & Data Sources
+        </div>
+        <p style="color: #166534; font-size: 0.9rem;">
+          Cross-referencing real-time local station logs with official ground stations and satellite data.
+        </p>
+
+        <div class="source-group">
+          <div class="source-tag">
+            <strong>Meteorology:</strong> Open-Meteo Weather API
+          </div>
+          <div class="source-tag">
+            <strong>Pollution Data:</strong> UPPCB (State)
+          </div>
+          <div class="source-tag">
+            <strong>Pollution Data:</strong> CPCB (Central)
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
   </div>
 
   <div class="po-team-heading">
