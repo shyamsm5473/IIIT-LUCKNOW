@@ -73,6 +73,27 @@
   .bg-unhealthy { background:rgba(248,113,113,0.2)!important; color:#f87171!important; }
   .border-good { border-left-color:#4ade80!important; } .border-moderate { border-left-color:#facc15!important; } .border-unhealthy { border-left-color:#f87171!important; }
 
+  /* ── HOME PAGE MOBILE ── */
+  @media (max-width: 768px) {
+    .hero { padding: 0 20px; height: 55vh; }
+    .hero-content h1 { font-size: 2.2rem; }
+    .hero-content p  { font-size: 1rem; }
+    .features { flex-direction: column; padding: 28px 20px; gap: 20px; }
+    .feature { width: 100%; padding: 0; border-right: none !important; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 16px; }
+    .feature:first-child { border-top: none; }
+    .photo-container { flex-wrap: nowrap; overflow-x: auto; padding: 16px 12px; gap: 12px; }
+    .card { width: 240px; flex-shrink: 0; height: 200px; }
+    .aqi-location-panel { flex-direction: column; gap: 12px; align-items: flex-start; }
+    .aqi-huge-number { font-size: 3.5rem; }
+  }
+  @media (max-width: 480px) {
+    .hero { height: 48vh; }
+    .hero-content h1 { font-size: 1.7rem; }
+    .pollutants-flex-grid { grid-template-columns: 1fr; }
+    .pollutant-data-node { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .pollutant-node-value { text-align: left; }
+  }
+
 </style>
 {% endblock %}
 
