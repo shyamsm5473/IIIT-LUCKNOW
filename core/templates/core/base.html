@@ -108,14 +108,23 @@
 
   <!-- ═══════ NAVIGATION BAR ═══════ -->
   <nav class="bottom-bar">
-    <a href="{% url 'core:home' %}"       {% if active_page == 'home'        %}class="active"{% endif %}>Home</a>
-    <a href="{% url 'core:about' %}"      {% if active_page == 'about'       %}class="active"{% endif %}>About</a>
-    <a href="{% url 'core:dashboard' %}"  {% if active_page == 'dashboard'   %}class="active"{% endif %}>Dashboard</a>
-    <a href="{% url 'core:analytics' %}"  {% if active_page == 'analytics'   %}class="active"{% endif %}>Air Quality Analytics</a>
-    <a href="{% url 'core:contact' %}"    {% if active_page == 'contact'     %}class="active"{% endif %}>Contact</a>
-    <a href="{% url 'core:benefits' %}"   {% if active_page == 'benefits'    %}class="active"{% endif %}>Benefits</a>
-    <a href="{% url 'related_publication:page' %}" {% if active_page == 'publications' %}class="active"{% endif %}>Related Publications</a>
-    <a href="{% url 'core:map' %}"        {% if active_page == 'map'         %}class="active"{% endif %}>Map</a>
+    <!-- Hamburger button (mobile only) -->
+    <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Open navigation menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- Desktop nav links -->
+    <div class="nav-links" id="navLinks">
+      <a href="{% url 'core:home' %}"       {% if active_page == 'home'        %}class="active"{% endif %}>Home</a>
+      <a href="{% url 'core:about' %}"      {% if active_page == 'about'       %}class="active"{% endif %}>About</a>
+      <a href="{% url 'core:dashboard' %}"  {% if active_page == 'dashboard'   %}class="active"{% endif %}>Dashboard</a>
+      <a href="{% url 'core:analytics' %}"  {% if active_page == 'analytics'   %}class="active"{% endif %}>Air Quality Analytics</a>
+      <a href="{% url 'core:contact' %}"    {% if active_page == 'contact'     %}class="active"{% endif %}>Contact</a>
+      <a href="{% url 'core:benefits' %}"   {% if active_page == 'benefits'    %}class="active"{% endif %}>Benefits</a>
+      <a href="{% url 'related_publication:page' %}" {% if active_page == 'publications' %}class="active"{% endif %}>Related Publications</a>
+      <a href="{% url 'core:map' %}"        {% if active_page == 'map'         %}class="active"{% endif %}>Map</a>
+    </div>
+
     <div class="auth-buttons">
       {% if user.is_authenticated %}
         <span class="nav-user-greeting">👋 {{ user.first_name|default:user.username }}</span>
@@ -129,6 +138,31 @@
       {% endif %}
     </div>
   </nav>
+
+  <!-- ═══════ MOBILE SLIDE-OUT NAVIGATION ═══════ -->
+  <div class="mobile-nav-overlay" id="mobileOverlay" onclick="toggleMobileNav()"></div>
+  <div class="mobile-nav-panel" id="mobileNavPanel">
+    <a href="{% url 'core:home' %}"       {% if active_page == 'home'        %}class="active"{% endif %} onclick="toggleMobileNav()">🏠 Home</a>
+    <a href="{% url 'core:about' %}"      {% if active_page == 'about'       %}class="active"{% endif %} onclick="toggleMobileNav()">ℹ️ About</a>
+    <a href="{% url 'core:dashboard' %}"  {% if active_page == 'dashboard'   %}class="active"{% endif %} onclick="toggleMobileNav()">📊 Dashboard</a>
+    <a href="{% url 'core:analytics' %}"  {% if active_page == 'analytics'   %}class="active"{% endif %} onclick="toggleMobileNav()">💨 Air Quality Analytics</a>
+    <a href="{% url 'core:contact' %}"    {% if active_page == 'contact'     %}class="active"{% endif %} onclick="toggleMobileNav()">✉️ Contact</a>
+    <a href="{% url 'core:benefits' %}"   {% if active_page == 'benefits'    %}class="active"{% endif %} onclick="toggleMobileNav()">✅ Benefits</a>
+    <a href="{% url 'related_publication:page' %}" {% if active_page == 'publications' %}class="active"{% endif %} onclick="toggleMobileNav()">📚 Related Publications</a>
+    <a href="{% url 'core:map' %}"        {% if active_page == 'map'         %}class="active"{% endif %} onclick="toggleMobileNav()">🗺️ Map</a>
+    <div class="mobile-auth-row">
+      {% if user.is_authenticated %}
+        <span class="nav-user-greeting" style="font-size:0.85rem;">👋 {{ user.first_name|default:user.username }}</span>
+        <form method="post" action="{% url 'core:logout' %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn-login">Logout</button>
+        </form>
+      {% else %}
+        <a href="{% url 'core:login' %}"><button class="btn-login">Login</button></a>
+        <a href="{% url 'core:signup' %}"><button class="btn-signup">Sign Up</button></a>
+      {% endif %}
+    </div>
+  </div>
 
   <!-- ═══════ PAGE CONTENT ═══════ -->
   {% block content %}{% endblock %}
@@ -159,5 +193,33 @@
   </footer>
 
   {% block extra_js %}{% endblock %}
+
+  <script>
+    /* ── Mobile navigation hamburger toggle ── */
+    function toggleMobileNav() {
+      var btn     = document.getElementById('navHamburger');
+      var panel   = document.getElementById('mobileNavPanel');
+      var overlay = document.getElementById('mobileOverlay');
+      var isOpen  = panel.classList.contains('open');
+      if (isOpen) {
+        btn.classList.remove('open');
+        panel.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      } else {
+        btn.classList.add('open');
+        panel.classList.add('open');
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    /* Close on Escape key */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        var panel = document.getElementById('mobileNavPanel');
+        if (panel && panel.classList.contains('open')) toggleMobileNav();
+      }
+    });
+  </script>
 </body>
 </html>
