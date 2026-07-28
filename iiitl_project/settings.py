@@ -24,15 +24,12 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # Initialize environ with defaults
-env = environ.Env(
-    DEBUG=(bool, False),
-    ALLOWED_HOSTS=(list, [])
-)
+env = environ.Env()
 
-# Only read .env if it exists locally (prevents errors on Render)
+# Read .env file using the instance method safely
 env_file = BASE_DIR / '.env'
 if env_file.exists():
-    environ.Env.read_env(str(env_file))
+    env.read_env(str(env_file))
 
 # 1. SECRET_KEY
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-fallback-key-for-local-dev-change-in-prod')
