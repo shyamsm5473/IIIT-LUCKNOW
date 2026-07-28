@@ -22,23 +22,6 @@
   .po-card p,.po-card ul { color:#5a6472; font-size:0.98rem; line-height:1.7; margin:0; padding:0; }
   .po-card ul { padding-left:20px; margin-top:10px; } .po-card li { margin-bottom:6px; }
   .po-card .po-note { display:block; margin-top:16px; font-size:0.85rem; color:#718096; font-style:italic; border-left:2px solid rgba(2,87,93,0.3); padding-left:10px; }
-
-  /* --- Embedded dataset/validation sub-layout (previously unstyled) --- */
-  .po-card .container { max-width:100%; }
-  .po-card .header { text-align:left; margin-bottom:14px; }
-  .po-card .badge { display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:0.72rem; letter-spacing:1px; text-transform:uppercase; color:#02575d; background:rgba(2,87,93,0.08); padding:4px 12px; border-radius:20px; margin-bottom:10px; }
-  .po-card .header h4 { font-family:'Sora',sans-serif; font-weight:700; font-size:1.05rem; color:#1a2540; margin:0; }
-  .po-card .section { margin-top:22px; }
-  .po-card .section-title { font-family:'Sora',sans-serif; font-size:0.95rem; font-weight:700; color:#1a2540; margin:0 0 10px 0; }
-  .po-card .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-top:10px; }
-  .po-card .card { background:#f7fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 16px; }
-  .po-card .card-title { font-weight:700; font-size:0.85rem; color:#1a2540; margin-bottom:6px; }
-  .po-card .card-text { font-size:0.82rem; color:#5a6472; margin:0; line-height:1.5; }
-  .po-card .highlight-box { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:16px 18px; margin-top:16px; }
-  .po-card .highlight-title { font-weight:700; color:#166534; margin-bottom:6px; font-size:0.9rem; }
-  .po-card .source-group { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
-  .po-card .source-tag { background:#ffffff; border:1px solid #bbf7d0; border-radius:20px; padding:6px 14px; font-size:0.78rem; color:#166534; }
-
   .po-team-heading { text-align:center; margin-bottom:32px; }
   .po-team-heading h3 { font-family:'Sora',sans-serif; font-size:1.6rem; color:#1a2540; margin:0 0 8px 0; }
   .po-team-heading p { color:#5a6472; font-size:0.98rem; margin:0; }
@@ -94,6 +77,95 @@
   .ap-name { font-family:var(--ap-display); font-weight:600; font-size:16px; margin:0 0 4px; color:var(--ap-ink); }
   .ap-affil { font-size:12.5px; color:var(--ap-slate); margin:0; line-height:1.55; }
   .ap-bio { font-size:13.5px; color:var(--ap-ink); margin-top:10px; line-height:1.65; }
+
+  /* --- Data card extended styles --- */
+  .po-card-badge-row { margin-bottom: 10px; }
+  .po-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #02575d;
+    background: rgba(2, 87, 93, 0.10);
+    border: 1px solid rgba(2, 87, 93, 0.18);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .po-card-subtitle {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a2540;
+    margin: 0 0 18px 0;
+  }
+  .po-data-section { margin-top: 20px; }
+  .po-data-section--cross { margin-top: 24px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+  .po-data-heading {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a2540;
+    margin: 0 0 10px 0;
+  }
+  .po-data-section > p { font-size: 0.92rem; color: #5a6472; line-height: 1.65; margin: 0 0 14px 0; }
+  .po-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .po-mini-card {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+    color: #5a6472;
+    line-height: 1.5;
+  }
+  .po-mini-card strong { display: block; color: #1a2540; margin-bottom: 5px; font-size: 0.88rem; }
+  .po-mini-card p { margin: 0; }
+  .po-mini-card--full { grid-column: 1 / -1; }
+  .po-mini-highlight { color: #02575d !important; font-weight: 500; }
+  .po-validated-box {
+    background: #f0fdf6;
+    border: 1px solid rgba(2, 87, 93, 0.18);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 12px;
+  }
+  .po-validated-title { font-size: 0.88rem; color: #1a2540; margin: 0 0 6px 0; }
+  .po-validated-sub { font-size: 0.82rem; color: #02575d; margin: 0 0 12px 0; line-height: 1.5; }
+  .po-source-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .po-source-tag {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #02575d;
+    background: rgba(2, 87, 93, 0.08);
+    border: 1px solid rgba(2, 87, 93, 0.15);
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+  @media (max-width: 480px) {
+    .po-mini-grid { grid-template-columns: 1fr; }
+    .po-mini-card--full { grid-column: 1; }
+  }
+
+  /* ── ABOUT MOBILE ── */
+  @media (max-width: 768px) {
+    .project-overview { margin: 20px 12px 40px; padding: 24px 16px; border-radius: 16px; }
+    .po-intro h2 { font-size: 1.6rem; }
+    .po-card { padding: 22px 16px; }
+    .ap-wrap { padding: 0 16px; }
+    .ap-hero { padding: 36px 0 30px; }
+    .ap-section { padding: 28px 0; }
+    .ap-team-grid { gap: 10px; }
+  }
+  @media (max-width: 480px) {
+    .po-intro h2 { font-size: 1.3rem; }
+    .po-intro p { font-size: 0.93rem; }
+    .ap-title { font-size: 1.2rem; }
+    .po-team-grid { gap: 14px; }
+  }
 </style>
 {% endblock %}
 
@@ -111,71 +183,50 @@
       <h3>Who Made It</h3>
       <p>This project is a joint initiative between the <strong>Indian Institute of Information Technology, Lucknow (IIITL)</strong> and the <strong>Uttar Pradesh Council of Science &amp; Technology (UPCST)</strong>. IIITL led the research, design, and technical development, with UPCST supporting the initiative as part of its mandate to advance science and technology outreach across Uttar Pradesh.</p>
     </div>
-    <div class="po-card">
+    <div class="po-card po-card--data">
       <div class="po-card-icon">📡</div>
+      <div class="po-card-badge-row">
+        <span class="po-badge">Environmental Research Dataset</span>
+      </div>
       <h3>Where the Data Comes From</h3>
-      <div class="container">
+      <p class="po-card-subtitle">Air Quality Testbed &amp; Data Validation</p>
 
-        <header class="header">
-          <span class="badge">Environmental Research Dataset</span>
-          <h4>Air Quality Testbed &amp; Data Validation</h4>
-        </header>
+      <div class="po-data-section">
+        <h4 class="po-data-heading">Dataset &amp; Deployment Architecture</h4>
+        <p>The dataset used in this research is collected from a real-world air quality monitoring network deployed at the <strong>Indian Institute of Information Technology Lucknow (IIIT Lucknow)</strong>.</p>
 
-        <!-- Data Collection Section -->
-        <section class="section">
-          <h5 class="section-title">Dataset &amp; Deployment Architecture</h5>
-          <p>
-            The dataset used in this research is collected from a real-world air quality monitoring network deployed at the <strong>Indian Institute of Information Technology Lucknow (IIIT Lucknow)</strong>.
-          </p>
-
-          <div class="grid">
-            <div class="card">
-              <div class="card-title">Infrastructure</div>
-              <p class="card-text">3 strategically placed monitoring stations across the IIIT Lucknow campus.</p>
-            </div>
-            <div class="card">
-              <div class="card-title">Sensor Pairing</div>
-              <p class="card-text">Combines high-grade reference sensors with low-cost air quality sensors.</p>
-            </div>
-            <div class="card">
-              <div class="card-title">Primary Objective</div>
-              <p class="card-text">Continuous monitoring to evaluate sensor reliability and train machine learning models.</p>
-            </div>
+        <div class="po-mini-grid">
+          <div class="po-mini-card">
+            <strong>Infrastructure</strong>
+            <p>3 strategically placed monitoring stations across the IIIT Lucknow campus.</p>
           </div>
-        </section>
-
-        <!-- Data Validation Section -->
-        <section class="section">
-          <h5 class="section-title">Cross-Validation &amp; External Data Sources</h5>
-          <p>
-            To guarantee high data integrity, continuously logged readings are cross-validated against multiple established external databases and meteorological APIs.
-          </p>
-
-          <div class="highlight-box">
-            <div class="highlight-title">Validated Parameters &amp; Data Sources</div>
-            <p style="color: #166534; font-size: 0.9rem;">
-              Cross-referencing real-time local station logs with official ground stations and satellite data.
-            </p>
-
-            <div class="source-group">
-              <div class="source-tag">
-                <strong>Meteorology:</strong> Open-Meteo Weather API
-              </div>
-              <div class="source-tag">
-                <strong>Pollution Data:</strong> UPPCB (State)
-              </div>
-              <div class="source-tag">
-                <strong>Pollution Data:</strong> CPCB (Central)
-              </div>
-            </div>
+          <div class="po-mini-card">
+            <strong>Sensor Pairing</strong>
+            <p>Combines high-grade reference sensors with low-cost air quality sensors.</p>
           </div>
-        </section>
+          <div class="po-mini-card po-mini-card--full">
+            <strong>Primary Objective</strong>
+            <p class="po-mini-highlight">Continuous monitoring to evaluate sensor reliability and train machine learning models.</p>
+          </div>
+        </div>
+      </div>
 
+      <div class="po-data-section po-data-section--cross">
+        <h4 class="po-data-heading">Cross-Validation &amp; External Data Sources</h4>
+        <p>To guarantee high data integrity, continuously logged readings are cross-validated against multiple established external databases and meteorological APIs.</p>
+        <div class="po-validated-box">
+          <p class="po-validated-title"><strong>Validated Parameters &amp; Data Sources</strong></p>
+          <p class="po-validated-sub">Cross-referencing real-time local station logs with official ground stations and satellite data.</p>
+          <div class="po-source-tags">
+            <span class="po-source-tag">Meteorology: Open-Meteo Weather API</span>
+            <span class="po-source-tag">Pollution Data: UPPCB (State)</span>
+            <span class="po-source-tag">Pollution Data: CPCB (Central)</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <br>
+  </div>
 
   <div class="po-team-heading">
     <h3>Project Team</h3>
@@ -201,7 +252,7 @@
       <span class="po-team-role">Co-Principal Investigator</span>
       <a href="mailto:soumendu@iiitl.ac.in">soumendu@iiitl.ac.in</a>
     </div>
-
+   
     <div class="po-team-card">
       <div class="po-team-avatar"><img src="{% static 'Akansha Singh.jpg' %}" alt="Akansha Singh"></div>
       <h4>Akansha Singh</h4>
@@ -240,8 +291,8 @@
           <span class="ap-meta-val">Chak Ganjaria, C.G. City, Lucknow &ndash; 226002</span>
         </div>
       </div>
-
-
+     
+     
     </div>
   </header>
 
