@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +23,22 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    ALLOWED_HOSTS=(list, []),
+)
+
+# reading .env file
+environ.Env.read_env(BASE_DIR / '.env')
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)242u289(qfbuj=(t1sx0wjz%ffu81c63cp-44ufe!qrhu+pll'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ["*"]   # Restrict appropriately in production
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -80,10 +90,7 @@ WSGI_APPLICATION = 'iiitl_project.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db('DATABASE_URL', default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
 }
 
 
@@ -121,8 +128,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
-
 # Serve the existing flat files (firststyle.css, images) directly from
 # the project root so all <img src="..."> paths resolve correctly.
 STATICFILES_DIRS = [
@@ -144,6 +149,6 @@ EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST          = 'smtp.gmail.com'
 EMAIL_PORT          = 587
 EMAIL_USE_TLS       = True
-EMAIL_HOST_USER     = 'your_gmail@gmail.com'        # ← replace
-EMAIL_HOST_PASSWORD = 'your_16_char_app_password'   # ← replace
+EMAIL_HOST_USER     = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL  = EMAIL_HOST_USER

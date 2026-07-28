@@ -1,5 +1,6 @@
-google-generativeai
-pymupdf
 django
 gunicorn
 whitenoise
+google-generativeai
+pymupdf
+django-environ
