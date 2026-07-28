@@ -38,6 +38,12 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
+# 1. SECRET_KEY
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-fallback-key-for-local-dev')
+
+# 2. DEBUG (cast to boolean with cast=bool, default to False for safety)
+DEBUG = env.bool('DEBUG', default=False)
+
 ALLOWED_HOSTS = env('ALLOWED_HOSTS' ,default=['*'])
 
 
