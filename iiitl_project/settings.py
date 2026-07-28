@@ -23,29 +23,25 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
+# Initialize environ with defaults
 env = environ.Env(
-    # set casting, default value
     DEBUG=(bool, False),
-    ALLOWED_HOSTS=(list, []),
+    ALLOWED_HOSTS=(list, [])
 )
 
-# reading .env file
-environ.Env.read_env(BASE_DIR / '.env')
+# Only read .env if it exists locally (prevents errors on Render)
+env_file = BASE_DIR / '.env'
+if env_file.exists():
+    environ.Env.read_env(str(env_file))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# 1. SECRET_KEY with a fallback default so builds/collectstatic never crash
+# 1. SECRET_KEY
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-fallback-key-for-local-dev-change-in-prod')
 
-# 2. DEBUG as boolean
+# 2. DEBUG
 DEBUG = env.bool('DEBUG', default=False)
 
-# 3. ALLOWED_HOSTS as list
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['iiit-lucknow.onrender.com', 'localhost', '127.0.0.1'])
-# 2. DEBUG (cast to boolean with cast=bool, default to False for safety)
-DEBUG = env.bool('DEBUG', default=False)
-
-ALLOWED_HOSTS = env('ALLOWED_HOSTS' ,default=['*'])
-
+# 3. ALLOWED_HOSTS
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['iiit-lucknow.onrender.com', 'localhost', '127.0.0.1', '*'])
 
 # Application definition
 
