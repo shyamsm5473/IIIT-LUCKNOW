@@ -33,14 +33,14 @@ env = environ.Env(
 environ.Env.read_env(BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', default='django-insecure-local-dev-key-change-me-in-prod')
+# 1. SECRET_KEY with a fallback default so builds/collectstatic never crash
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-fallback-key-for-local-dev-change-in-prod')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+# 2. DEBUG as boolean
+DEBUG = env.bool('DEBUG', default=False)
 
-# 1. SECRET_KEY
-SECRET_KEY = env('SECRET_KEY', default='django-insecure-fallback-key-for-local-dev')
-
+# 3. ALLOWED_HOSTS as list
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['iiit-lucknow.onrender.com', 'localhost', '127.0.0.1'])
 # 2. DEBUG (cast to boolean with cast=bool, default to False for safety)
 DEBUG = env.bool('DEBUG', default=False)
 
