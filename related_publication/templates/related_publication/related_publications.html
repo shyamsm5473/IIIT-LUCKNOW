@@ -449,6 +449,180 @@
     .footer-support { font-size: 0.9rem; color: #a0aec0; margin-top: 8px; }
     .footer-support a { color: #4ed8e2; text-decoration: none; font-weight: 500; }
     .footer-support a:hover { text-decoration: underline; }
+
+    /* ---------- HAMBURGER BUTTON (matches .nav-hamburger in firststyle.css) ---------- */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: transparent;
+      border: none;
+      z-index: 1100;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 2px;
+      transition: all 0.28s ease;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Nav links wrapper (desktop) */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    /* ---------- MOBILE OVERLAY NAV ---------- */
+    .mobile-nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 18, 40, 0.45);
+      z-index: 1050;
+      backdrop-filter: blur(2px);
+    }
+    .mobile-nav-overlay.open { display: block; }
+    .mobile-nav-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 78vw;
+      max-width: 300px;
+      height: 100%;
+      background: #1a3a5c;
+      z-index: 1060;
+      padding: 70px 0 30px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.28);
+      overflow-y: auto;
+    }
+    .mobile-nav-panel.open { transform: translateX(0); }
+    .mobile-nav-panel a {
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: block;
+      transition: background 0.15s;
+    }
+    .mobile-nav-panel a:hover, .mobile-nav-panel a.active {
+      background: rgba(255,255,255,0.10);
+      color: #f0c040;
+    }
+    .mobile-nav-panel a.active { border-left: 3px solid #f0c040; padding-left: 21px; }
+    .mobile-auth-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 18px 24px;
+      margin-top: auto;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .mobile-auth-row .btn-login,
+    .mobile-auth-row .btn-signup {
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    /* ================================================================
+       RESPONSIVE BREAKPOINTS
+       ================================================================ */
+
+    /* ---- Tablet: ≤ 900px ---- */
+    @media (max-width: 900px) {
+      .bottom-bar a { font-size: 13px; padding: 15px 8px; }
+      .bottom-bar { gap: 0.4rem; padding: 0 1rem; }
+      .pub-wrap { margin: 36px 16px 60px; padding: 28px 20px; }
+    }
+
+    /* ---- Mobile: ≤ 768px ---- */
+    @media (max-width: 768px) {
+      /* Top bar: stack logos */
+      .top-bar {
+        padding: 10px 14px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .logo-box img { width: 46px !important; height: 46px !important; }
+      .logo-label .title, .right-logo-label .title { font-size: 13px; }
+      .logo-label .sub, .right-logo-label .sub { font-size: 9.5px; }
+
+      /* Hide desktop nav links & auth; show hamburger */
+      .nav-links { display: none; }
+      .auth-buttons { display: none; }
+      .nav-hamburger { display: flex; }
+      .bottom-bar {
+        justify-content: flex-start;
+        padding: 0 10px;
+        min-height: 48px;
+        gap: 0;
+      }
+
+      /* Pub section */
+      .pub-wrap {
+        margin: 20px 10px 40px;
+        padding: 22px 14px;
+        border-radius: 16px;
+      }
+      .pub-header h2 { font-size: 1.55rem; }
+      .pub-header p { font-size: 0.92rem; }
+
+      /* Add-form */
+      .add-form { padding: 20px 16px; border-radius: 14px; }
+
+      /* Pub card */
+      .pub-card { padding: 16px 14px; border-radius: 12px; }
+      .pub-citation { font-size: 0.92rem; }
+      .pub-meta-row { gap: 8px; }
+
+      /* Corner widget repositioned */
+      .corner-login { top: auto; bottom: 20px; right: 16px; }
+      .corner-login-box { right: 0; width: 88vw; max-width: 300px; }
+
+      /* Footer */
+      .footer-emails { gap: 22px; }
+      .email-item { min-width: 140px; }
+    }
+
+    /* ---- Small Mobile: ≤ 480px ---- */
+    @media (max-width: 480px) {
+      .top-bar { padding: 8px 10px; }
+      .logo-label .title, .right-logo-label .title { font-size: 11.5px; }
+      .logo-label .sub, .right-logo-label .sub { display: none; }
+      .logo-box img { width: 38px !important; height: 38px !important; }
+
+      .pub-header h2 { font-size: 1.28rem; }
+      .pub-eyebrow { font-size: 0.7rem; }
+
+      .inline-edit-form { padding: 12px 10px; }
+      .edit-action-row { flex-direction: column; }
+      .btn-save-edit, .btn-cancel-edit { flex: unset; width: 100%; }
+
+      .footer-emails { flex-direction: column; align-items: center; gap: 18px; }
+      .email-item { min-width: unset; width: 100%; }
+      .site-footer { padding: 30px 16px; }
+    }
   </style>
 </head>
 <body>
@@ -479,19 +653,43 @@
 
   <!-- Navigation Menu Bar -->
   <nav class="bottom-bar">
-    <a href="/">Home</a>
-    <a href="/about/">About</a>
-    <a href="/dashboard/">Dashboard</a>
-    <a href="/analytics/">Air Quality Analytics</a>
-    <a href="/contact/">Contact</a>
-    <a href="/benefits/">Benefits</a>
-    <a href="/related_publication/" class="active">Related publications</a>
-    <a href="/map/">Map</a>
+    <!-- Hamburger button (mobile only) -->
+    <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Open navigation menu">
+      <span></span><span></span><span></span>
+    </button>
+    <!-- Desktop nav links -->
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about/">About</a>
+      <a href="/dashboard/">Dashboard</a>
+      <a href="/analytics/">Air Quality Analytics</a>
+      <a href="/contact/">Contact</a>
+      <a href="/benefits/">Benefits</a>
+      <a href="/related_publication/" class="active">Related publications</a>
+      <a href="/map/">Map</a>
+    </div>
     <div class="auth-buttons">
       <button class="btn-login" onclick="window.location.href='/login/'">Login</button>
       <button class="btn-signup" onclick="window.location.href='/signup/'">Sign Up</button>
     </div>
   </nav>
+
+  <!-- Mobile Slide-out Navigation -->
+  <div class="mobile-nav-overlay" id="mobileOverlay" onclick="toggleMobileNav()"></div>
+  <div class="mobile-nav-panel" id="mobileNavPanel">
+    <a href="/" onclick="toggleMobileNav()">🏠 Home</a>
+    <a href="/about/" onclick="toggleMobileNav()">ℹ️ About</a>
+    <a href="/dashboard/" onclick="toggleMobileNav()">📊 Dashboard</a>
+    <a href="/analytics/" onclick="toggleMobileNav()">💨 Air Quality Analytics</a>
+    <a href="/contact/" onclick="toggleMobileNav()">✉️ Contact</a>
+    <a href="/benefits/" onclick="toggleMobileNav()">✅ Benefits</a>
+    <a href="/related_publication/" class="active" onclick="toggleMobileNav()">📚 Related Publications</a>
+    <a href="/map/" onclick="toggleMobileNav()">🗺️ Map</a>
+    <div class="mobile-auth-row">
+      <button class="btn-login" onclick="window.location.href='/login/'">Login</button>
+      <button class="btn-signup" onclick="window.location.href='/signup/'">Sign Up</button>
+    </div>
+  </div>
 
   <!-- Main Container -->
   <div class="pub-wrap">
@@ -1011,6 +1209,38 @@
     // INITIALISATION — Load from DB on first page render
     // ────────────────────────────────────────────────────────────────
     loadPublicationsFromBackend();
+
+    // ────────────────────────────────────────────────────────────────
+    // MOBILE NAVIGATION — Hamburger toggle
+    // ────────────────────────────────────────────────────────────────
+    window.toggleMobileNav = function () {
+      const btn     = document.getElementById('navHamburger');
+      const panel   = document.getElementById('mobileNavPanel');
+      const overlay = document.getElementById('mobileOverlay');
+      const isOpen  = panel.classList.contains('open');
+
+      if (isOpen) {
+        btn.classList.remove('open');
+        panel.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      } else {
+        btn.classList.add('open');
+        panel.classList.add('open');
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    // Close mobile nav on Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        const panel = document.getElementById('mobileNavPanel');
+        if (panel && panel.classList.contains('open')) {
+          window.toggleMobileNav();
+        }
+      }
+    });
   </script>
 </body>
 </html>
