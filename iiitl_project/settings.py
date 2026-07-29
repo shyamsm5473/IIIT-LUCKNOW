@@ -40,6 +40,9 @@ DEBUG = env.bool('DEBUG', default=False)
 # 3. ALLOWED_HOSTS
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['iiit-lucknow.onrender.com', 'localhost', '127.0.0.1', '*'])
 
+# 4. CSRF_TRUSTED_ORIGINS
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=['https://iiit-lucknow.onrender.com'])
+
 # Application definition
 
 INSTALLED_APPS = [
