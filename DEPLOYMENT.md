@@ -1,29 +1,28 @@
-# Render Deployment Instructions
+# Neon PostgreSQL & Render Deployment Instructions
 
-Because Render uses an ephemeral filesystem, any local SQLite databases will be wiped on every deployment. This will cause data loss and missing tables (e.g. `no such table: related_publication_publication`).
+Because Render uses an ephemeral filesystem on its free tier, any local SQLite databases will be wiped on every deployment. This will cause data loss and missing tables (e.g. `no such table: related_publication_publication`).
 
-To fix this, you must migrate to a permanent PostgreSQL database. 
+To fix this permanently, we have migrated to **Neon** (a free, non-expiring hosted PostgreSQL). We use Neon instead of Render's free PostgreSQL because Render's free Postgres auto-deletes after 30 days.
 
-### Step 1: Create a PostgreSQL Instance
-1. Go to your [Render Dashboard](https://dashboard.render.com).
-2. Click **New +** and select **PostgreSQL**.
-3. Create the database (the Free tier is fine).
-4. Once created, copy the **Internal Database URL** (starts with `postgres://...`).
+### Manual Setup Steps (Already Completed)
+The following steps have already been done to resolve the database persistence issue:
 
-### Step 2: Configure Environment Variables
-1. Navigate back to your Web Service (e.g., `iiit-lucknow`) in the Render dashboard.
-2. Go to the **Environment** tab.
-3. Add a new variable:
-   - **Key**: `DATABASE_URL`
-   - **Value**: *(Paste the Internal Database URL from Step 1)*
+1. **Created a Free Neon Postgres Project:**
+   - A Neon project was created to host the database.
+   - The connection string (which includes `?sslmode=require` for secure SSL connections) was copied from the Neon dashboard.
 
-### Step 3: Run Migrations on Deploy
-Since we need to ensure database tables are created automatically before the app runs, you need to update the startup or pre-deploy sequence.
-1. Go to the **Settings** tab of your Web Service.
-2. Set your **Pre-Deploy Command** (or prepend it to your Start Command) to:
-   ```bash
-   python manage.py migrate
-   ```
-   *(If you are modifying the Start Command directly, it should look like: `python manage.py migrate && gunicorn iiitl_project.wsgi:application`)*
+2. **Configured Environment Variables on Render:**
+   - Navigated to the Web Service in the Render dashboard.
+   - Under the **Environment** tab, added the `DATABASE_URL` key.
+   - Pasted the Neon connection string as the value. *(Note: `django-environ` safely handles parsing this URL and the `sslmode=require` query parameter automatically.)*
 
-Once these steps are completed, your database will persist across deployments and all "no such table" errors will be resolved.
+3. **Configured Migrations on Deploy:**
+   - Under the **Settings** tab in the Render Web Service, the **Pre-Deploy Command** (or Start Command) was set to include:
+     ```bash
+     python manage.py migrate
+     ```
+   - This ensures all tables are rebuilt and verified before the app boots up on every deploy.
+
+### Known Limitations
+> [!NOTE]
+> Neon's free tier automatically pauses compute resources after a period of inactivity to save costs. If the site receives no traffic for a while, the very first request that hits the database will trigger a "cold start." This means the database may take 2–5 seconds to wake up, causing a slight delay on that first page load. This is a known limitation of the free tier and not a bug in the code.
