@@ -4,3 +4,4 @@ whitenoise
 google-generativeai
 pymupdf
 django-environ
+psycopg2-binary

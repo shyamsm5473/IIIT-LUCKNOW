@@ -38,7 +38,7 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-fallback-key-for-local-d
 DEBUG = env.bool('DEBUG', default=False)
 
 # 3. ALLOWED_HOSTS
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['iiit-lucknow.onrender.com', 'localhost', '127.0.0.1', '*'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['iiit-lucknow.onrender.com', 'localhost', '127.0.0.1'])
 
 # Application definition
 
