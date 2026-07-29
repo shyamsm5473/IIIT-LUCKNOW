@@ -65,18 +65,12 @@ def publications_page(request):
 
 @require_http_methods(["GET"])
 def api_get_publications(request):
-    """
-    READ operation.
-
-    Returns a JSON array of all Publication records ordered by
-    most-recently created first (defined in model Meta.ordering).
-
-    Response shape:
-        { "success": true, "data": [ {...}, {...} ] }
-    """
-    publications = Publication.objects.all()
-    payload = [pub.to_dict() for pub in publications]
-    return JsonResponse({"success": True, "data": payload}, status=200)
+    try:
+        publications = Publication.objects.all()
+        payload = [pub.to_dict() for pub in publications]
+        return JsonResponse({"success": True, "data": payload}, status=200)
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=400)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -86,48 +80,34 @@ def api_get_publications(request):
 @csrf_protect
 @require_http_methods(["POST"])
 def api_add_publication(request):
-    """
-    WRITE / CREATE operation.
+    try:
+        data, err = _parse_json_body(request)
+        if err:
+            return err
 
-    Expected JSON body:
-        {
-            "authors":   "<string, required>",
-            "title":     "<string, required>",
-            "journal":   "<string, required>",
-            "year":      "<string, required>",
-            "link":      "<string, optional>",
-            "publisher": "<string, optional>",
-            "impact":    "<string, optional>"
-        }
+        # ── Mandatory field validation ─────────────────────────────────────
+        required_fields = ("authors", "title", "journal", "year")
+        missing = [f for f in required_fields if not str(data.get(f, "")).strip()]
+        if missing:
+            return JsonResponse(
+                {"success": False, "error": f"Missing required fields: {', '.join(missing)}"},
+                status=400
+            )
 
-    On success returns:
-        { "success": true, "data": { ...new record dict... } }
-    """
-    data, err = _parse_json_body(request)
-    if err:
-        return err
-
-    # ── Mandatory field validation ─────────────────────────────────────
-    required_fields = ("authors", "title", "journal", "year")
-    missing = [f for f in required_fields if not str(data.get(f, "")).strip()]
-    if missing:
-        return JsonResponse(
-            {"success": False, "error": f"Missing required fields: {', '.join(missing)}"},
-            status=400
+        # ── Create & persist ───────────────────────────────────────────────
+        pub = Publication.objects.create(
+            authors   = data["authors"].strip(),
+            title     = data["title"].strip(),
+            journal   = data["journal"].strip(),
+            year      = data["year"].strip(),
+            link      = data.get("link", "").strip(),
+            publisher = data.get("publisher", "").strip(),
+            impact    = data.get("impact", "").strip(),
         )
 
-    # ── Create & persist ───────────────────────────────────────────────
-    pub = Publication.objects.create(
-        authors   = data["authors"].strip(),
-        title     = data["title"].strip(),
-        journal   = data["journal"].strip(),
-        year      = data["year"].strip(),
-        link      = data.get("link", "").strip(),
-        publisher = data.get("publisher", "").strip(),
-        impact    = data.get("impact", "").strip(),
-    )
-
-    return JsonResponse({"success": True, "data": pub.to_dict()}, status=201)
+        return JsonResponse({"success": True, "data": pub.to_dict()}, status=201)
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=400)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -137,55 +117,38 @@ def api_add_publication(request):
 @csrf_protect
 @require_http_methods(["POST", "PUT"])
 def api_update_publication(request):
-    """
-    MODIFY / UPDATE operation.
-
-    Expected JSON body must include the record primary key:
-        {
-            "id":        <integer, required>,
-            "authors":   "<string>",
-            "title":     "<string>",
-            "journal":   "<string>",
-            "year":      "<string>",
-            "link":      "<string>",
-            "publisher": "<string>",
-            "impact":    "<string>"
-        }
-
-    Only fields included in the payload are updated (partial-update safe).
-
-    On success returns:
-        { "success": true, "data": { ...updated record dict... } }
-    """
-    data, err = _parse_json_body(request)
-    if err:
-        return err
-
-    record_id = data.get("id")
-    if not record_id:
-        return JsonResponse(
-            {"success": False, "error": "Field 'id' is required for update operations."},
-            status=400
-        )
-
-    # ── Fetch target record ────────────────────────────────────────────
     try:
-        pub = Publication.objects.get(pk=record_id)
-    except Publication.DoesNotExist:
-        return JsonResponse(
-            {"success": False, "error": f"Publication with id={record_id} does not exist."},
-            status=404
-        )
+        data, err = _parse_json_body(request)
+        if err:
+            return err
 
-    # ── Updateable field whitelist ─────────────────────────────────────
-    updatable_fields = ("authors", "title", "journal", "year", "link", "publisher", "impact")
-    for field in updatable_fields:
-        if field in data:
-            setattr(pub, field, str(data[field]).strip())
+        record_id = data.get("id")
+        if not record_id:
+            return JsonResponse(
+                {"success": False, "error": "Field 'id' is required for update operations."},
+                status=400
+            )
 
-    pub.save()
+        # ── Fetch target record ────────────────────────────────────────────
+        try:
+            pub = Publication.objects.get(pk=record_id)
+        except Publication.DoesNotExist:
+            return JsonResponse(
+                {"success": False, "error": f"Publication with id={record_id} does not exist."},
+                status=404
+            )
 
-    return JsonResponse({"success": True, "data": pub.to_dict()}, status=200)
+        # ── Updateable field whitelist ─────────────────────────────────────
+        updatable_fields = ("authors", "title", "journal", "year", "link", "publisher", "impact")
+        for field in updatable_fields:
+            if field in data:
+                setattr(pub, field, str(data[field]).strip())
+
+        pub.save()
+
+        return JsonResponse({"success": True, "data": pub.to_dict()}, status=200)
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=400)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -195,35 +158,26 @@ def api_update_publication(request):
 @csrf_protect
 @require_http_methods(["POST", "DELETE"])
 def api_delete_publication(request):
-    """
-    REMOVAL / DELETE operation.
-
-    Expected JSON body:
-        { "id": <integer, required> }
-
-    Accepts both POST and DELETE HTTP methods for maximum compatibility
-    with browser fetch() and proxy environments.
-
-    On success returns:
-        { "success": true, "deleted_id": <integer> }
-    """
-    data, err = _parse_json_body(request)
-    if err:
-        return err
-
-    record_id = data.get("id")
-    if not record_id:
-        return JsonResponse(
-            {"success": False, "error": "Field 'id' is required for delete operations."},
-            status=400
-        )
-
     try:
-        pub = Publication.objects.get(pk=record_id)
-        pub.delete()
-        return JsonResponse({"success": True, "deleted_id": record_id}, status=200)
-    except Publication.DoesNotExist:
-        return JsonResponse(
-            {"success": False, "error": f"Publication with id={record_id} does not exist."},
-            status=404
-        )
+        data, err = _parse_json_body(request)
+        if err:
+            return err
+
+        record_id = data.get("id")
+        if not record_id:
+            return JsonResponse(
+                {"success": False, "error": "Field 'id' is required for delete operations."},
+                status=400
+            )
+
+        try:
+            pub = Publication.objects.get(pk=record_id)
+            pub.delete()
+            return JsonResponse({"success": True, "deleted_id": record_id}, status=200)
+        except Publication.DoesNotExist:
+            return JsonResponse(
+                {"success": False, "error": f"Publication with id={record_id} does not exist."},
+                status=404
+            )
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=400)
